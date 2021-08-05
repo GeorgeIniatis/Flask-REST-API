@@ -4,10 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 api = Api(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db'  # Specify position of db
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db'  # Specify position of db and its name
 db = SQLAlchemy(app)
 
 
+# Specify db model/table
 class VideoModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -41,7 +42,7 @@ resource_fields = {
 
 
 class Video(Resource):
-    @marshal_with(resource_fields)  # Takes the unserialized instance and serializes it
+    @marshal_with(resource_fields)  # Takes the unserialized instance and serializes it using resource_fields
     def get(self, video_id):
         video = VideoModel.query.filter_by(id=video_id).first()  # Unserialized instance
 
