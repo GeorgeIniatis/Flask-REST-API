@@ -4,7 +4,6 @@
 #Compiled Documents
 *.pdf
 *.ps
-db.sqlite3
 .DS_Store
 
 #Directories
