@@ -14,7 +14,7 @@ data = [
 # Insert some videos
 index = 0
 for video in data:
-    response = requests.put(BASE + f"video/{index}", video)
+    response = requests.post(BASE + f"video/{index}", video)
     print(response.json())
     index += 1
 
@@ -30,3 +30,6 @@ print(response.json())
 response = requests.delete(BASE + "video/3")
 print(response)
 
+# Retrieve all videos
+response = requests.get(BASE + "videos")
+print(response.json())

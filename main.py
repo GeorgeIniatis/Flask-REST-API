@@ -22,10 +22,10 @@ class VideoModel(db.Model):
 # db.create_all()  # Create DB/overwrites existing one
 
 # Specify arguments we expect to receive by the PUT method
-video_put_args = reqparse.RequestParser()
-video_put_args.add_argument("name", type=str, help="Name of the video is required", required=True)
-video_put_args.add_argument("views", type=int, help="Views of the video is required", required=True)
-video_put_args.add_argument("likes", type=int, help="Likes of the video is required", required=True)
+video_post_args = reqparse.RequestParser()
+video_post_args.add_argument("name", type=str, help="Name of the video is required", required=True)
+video_post_args.add_argument("views", type=int, help="Views of the video is required", required=True)
+video_post_args.add_argument("likes", type=int, help="Likes of the video is required", required=True)
 
 # Specify arguments we expect to receive by the PATCH method
 video_patch_args = reqparse.RequestParser()
@@ -52,8 +52,8 @@ class Video(Resource):
         return video
 
     @marshal_with(resource_fields)
-    def put(self, video_id):
-        args = video_put_args.parse_args()
+    def post(self, video_id):
+        args = video_post_args.parse_args()
 
         # Check if video exists already
         video = VideoModel.query.filter_by(id=video_id).first()
@@ -96,8 +96,20 @@ class Video(Resource):
         return "", 204
 
 
-# URL/Endpoint
+class Videos(Resource):
+    @marshal_with(resource_fields)
+    def get(self):
+        videos = VideoModel.query.all()
+
+        # Check if query is valid
+        if not videos:
+            abort(404, message=f"No videos uploaded")
+        return videos
+
+
+# URLs/Endpoints
 api.add_resource(Video, "/video/<int:video_id>")
+api.add_resource(Videos, "/videos")
 
 if __name__ == "__main__":
     app.run(debug=True)
