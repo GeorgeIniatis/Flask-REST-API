@@ -23,15 +23,15 @@ class VideoModel(db.Model):
 
 # Specify arguments we expect to receive by the PUT method
 video_post_args = reqparse.RequestParser()
-video_post_args.add_argument("name", type=str, help="Name of the video is required", required=True)
-video_post_args.add_argument("views", type=int, help="Views of the video is required", required=True)
-video_post_args.add_argument("likes", type=int, help="Likes of the video is required", required=True)
+video_post_args.add_argument("name", type=str, help="Name of the video is required", required=True, location="form")
+video_post_args.add_argument("views", type=int, help="Views of the video is required", required=True, location="form")
+video_post_args.add_argument("likes", type=int, help="Likes of the video is required", required=True, location="form")
 
 # Specify arguments we expect to receive by the PATCH method
 video_patch_args = reqparse.RequestParser()
-video_patch_args.add_argument("name", type=str, help="Name of the video")
-video_patch_args.add_argument("views", type=int, help="Views of the video")
-video_patch_args.add_argument("likes", type=int, help="Likes of the video")
+video_patch_args.add_argument("name", type=str, help="Name of the video", location="form")
+video_patch_args.add_argument("views", type=int, help="Views of the video", location="form")
+video_patch_args.add_argument("likes", type=int, help="Likes of the video", location="form")
 
 resource_fields = {
     "id": fields.Integer,
